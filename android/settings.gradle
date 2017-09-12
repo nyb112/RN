@@ -1,3 +1,3 @@
-rootProject.name = 'RNDemo'
+rootProject.name = 'RN3'
 
 include ':app'

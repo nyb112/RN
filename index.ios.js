@@ -9,45 +9,85 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  Image
 } from 'react-native';
+var Dimensions = require('Dimensions');
+//导入json数据
+var Datas = require('./Datas.json');
+var {width} = Dimensions.get('window');
 
-export default class RNDemo extends Component {
+
+var cols = 3;  //列
+var herowidth = 100;  //每个item的宽
+var  vmargin = (width-cols*herowidth)/(cols + 1);  //左右间距
+var  hmargin = 20;  //上下间距
+
+
+
+export default class RN3 extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
+          {/*返回6个视图*/}
+          {this.renderAllHero()}
       </View>
     );
   }
+  //返回所有的英雄
+    renderAllHero(){
+        //定义数组装所有的子组件
+        var allhero = [];
+        //遍历json数据
+        for (var i = 0;i<Datas.data.length;i ++){
+            //取出单独的数据对象
+            var hero = Datas.data[i];
+            //直接装入数组
+            allhero.push(
+              <View key={i} style={styles.outViewStyle}>
+                  <Image source={{uri: hero.icon}} style={styles.ImageStyle}/>
+                  <Text style={styles.nameStyle}>
+                      {hero.name}
+                  </Text>
+              </View>
+
+            );
+
+        }
+        //返回数组
+        return allhero;
+    }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    // flex: 1,
+    //主轴方向居中
+      flexDirection:'row',
+      flexWrap:'wrap',
+
+
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+    outViewStyle:{
+      backgroundColor:'red',
+        //设置侧轴对齐方式
+        alignItems:'center',
+        width:herowidth,
+        height:herowidth,
+        marginLeft:vmargin,
+        marginTop:hmargin
+
+    },
+    ImageStyle:{
+        width:80,
+        height:80,
+        backgroundColor:'red'
+
+    },
+    nameStyle:{
+
+
+    }
 });
 
-AppRegistry.registerComponent('RNDemo', () => RNDemo);
+AppRegistry.registerComponent('RN3', () => RN3);
